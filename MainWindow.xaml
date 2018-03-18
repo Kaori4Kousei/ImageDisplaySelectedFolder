@@ -8,7 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -16,26 +16,22 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <TextBox Name="FilePath" Text="{Binding FilePaths}" HorizontalAlignment="Right" Height="50"/>
-        <Button Name="Browse" Grid.Row="0" Grid.Column="1" Command="{Binding BrowseCommand}" Width="50" HorizontalAlignment="Left" Height="50">Browse</Button>
+        <TextBox Name="FilePath" Text="{Binding FilePaths}" HorizontalAlignment="Right" Height="20" Width="200" VerticalAlignment="Center"/>
+        <Button Name="Browse" Grid.Row="0" Grid.Column="1" Command="{Binding BrowseCommand}" Width="50" VerticalAlignment="Center" Height="20" HorizontalAlignment="Left">Browse</Button>
 
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
-            <ItemsControl ItemsSource="{Binding ImagePath}" HorizontalAlignment="Center">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Image Source="{Binding ImagePathString}" Margin="4" Width="400" Height="400" RenderOptions.BitmapScalingMode="HighQuality">
-                            <Image.Effect>
-                                <DropShadowEffect ShadowDepth="6"/>
-                            </Image.Effect>
-                        </Image>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Rows="2" Columns="8" Name="uniformGrid1"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </StackPanel>
+        <ListBox Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ImagePath}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding ImagePathString}" Stretch="Fill"/>
+                    <!--Width in above image would be 1/3 of ListBox width so that only 3
+                    of item are displayed in a row-->
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

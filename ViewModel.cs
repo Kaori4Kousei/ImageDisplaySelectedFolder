@@ -22,6 +22,7 @@ namespace ImageGallery
     public class ViewModel : INotifyPropertyChanged
     {
         public bool Opened;
+        public bool canceled;
         
         private string _filePath;
 
@@ -47,7 +48,6 @@ namespace ImageGallery
       () =>
       {
           FilePaths = Browse_Click();
-          if (FilePaths!=null)
           LoadingPath();
       });
 
@@ -67,9 +67,11 @@ namespace ImageGallery
             if (result == System.Windows.Forms.DialogResult.OK)
             {
                 return dlg.SelectedPath;
+                canceled = false;
             }
 
-            return null;
+            else
+                return null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -89,9 +91,23 @@ namespace ImageGallery
             if (Opened != true)
             {
                 string[] fileEntries = Directory.GetFiles(FilePaths);
-                foreach (string fileName in fileEntries)
-                    ImagePath.Add(new ImagesPath() { ImagePathString = fileName });
-                Opened = true;
+                foreach (var fileName in fileEntries)
+                {
+                    {
+                        if (System.IO.Path.GetExtension(fileName).ToLower() == ".jpg" || System.IO.Path.GetExtension(fileName).ToLower() == ".png" || System.IO.Path.GetExtension(fileName).ToLower() == ".jpeg")
+
+                            ImagePath.Add(new ImagesPath() { ImagePathString = fileName });
+                        Opened = true;
+                    }
+                }
+                   
+            }
+            if(FilePaths==null)
+            {
+                foreach (var itemToRemove in ImagePath.ToList())
+                {
+                    ImagePath.Remove(itemToRemove);
+                }
             }
             else
             {
@@ -101,7 +117,12 @@ namespace ImageGallery
                 }
                 string[] fileEntries = Directory.GetFiles(FilePaths);
                 foreach (string fileName in fileEntries)
-                    ImagePath.Add(new ImagesPath() { ImagePathString = fileName });
+                {
+                    if (System.IO.Path.GetExtension(fileName).ToLower() == ".jpg" || System.IO.Path.GetExtension(fileName).ToLower() == ".png" || System.IO.Path.GetExtension(fileName).ToLower() == ".jpeg")
+
+                        ImagePath.Add(new ImagesPath() { ImagePathString = fileName });
+                    Opened = true;
+                }
             }
         }
     }
