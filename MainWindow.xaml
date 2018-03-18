@@ -16,7 +16,26 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <TextBox Name="FilePath" Text="{Binding FilePaths}"/>
-        <Button Name="Browse" Grid.Row="1" Grid.Column="1" Command="{Binding BrowseCommand}">Browse</Button>
+        <TextBox Name="FilePath" Text="{Binding FilePaths}" HorizontalAlignment="Right" Height="50"/>
+        <Button Name="Browse" Grid.Row="0" Grid.Column="1" Command="{Binding BrowseCommand}" Width="50" HorizontalAlignment="Left" Height="50">Browse</Button>
+
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+            <ItemsControl ItemsSource="{Binding ImagePath}" HorizontalAlignment="Center">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding ImagePathString}" Margin="4" Width="400" Height="400" RenderOptions.BitmapScalingMode="HighQuality">
+                            <Image.Effect>
+                                <DropShadowEffect ShadowDepth="6"/>
+                            </Image.Effect>
+                        </Image>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="2" Columns="8" Name="uniformGrid1"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
     </Grid>
 </Window>
