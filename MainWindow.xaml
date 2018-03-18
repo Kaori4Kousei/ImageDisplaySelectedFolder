@@ -1,9 +1,10 @@
-﻿<Window x:Class="ImageGallery.MainWindow"
+﻿<Controls:MetroWindow x:Class="ImageGallery.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageGallery"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -17,7 +18,7 @@
         </Grid.ColumnDefinitions>
 
         <TextBox Name="FilePath" Text="{Binding FilePaths}" HorizontalAlignment="Right" Height="20" Width="200" VerticalAlignment="Center"/>
-        <Button Name="Browse" Grid.Row="0" Grid.Column="1" Command="{Binding BrowseCommand}" Width="50" VerticalAlignment="Center" Height="20" HorizontalAlignment="Left">Browse</Button>
+        <Button Name="Browse" Grid.Row="0" Grid.Column="1" Command="{Binding BrowseCommand}" Width="60" VerticalAlignment="Center" Height="20" HorizontalAlignment="Left">Browse</Button>
 
         <ListBox Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ImagePath}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
             <ListBox.ItemsPanel>
@@ -27,11 +28,11 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding ImagePathString}" Stretch="Fill"/>
+                    <Image Source="{Binding ImagePathString}" Stretch="Fill"  RenderOptions.BitmapScalingMode="HighQuality"/>
                     <!--Width in above image would be 1/3 of ListBox width so that only 3
                     of item are displayed in a row-->
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
     </Grid>
-</Window>
+</Controls:MetroWindow>
