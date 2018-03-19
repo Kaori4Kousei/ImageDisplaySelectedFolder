@@ -21,13 +21,24 @@ namespace ImageGallery
 {
     public class ViewModel : INotifyPropertyChanged
     {
+        //to check if opened
         public bool Opened;
+
+        //to check if the user cancelled the program
         public bool canceled;
         
         private string _filePath;
+
+        //Item selected by the user's index
         private int _selectedItemIndex;
+
+        //Item's corresponding file's path is stored in it
         private string _selectedFileName;
 
+        //to check if the item was clicked
+        private Boolean _isOpen;
+
+        //sets FilePaths
         public string FilePaths
         {
             get
@@ -146,13 +157,8 @@ namespace ImageGallery
         void ItemSelected()
         {
             SelectedFileName = ImagePath[_selectedItemIndex].ImagePathString;
-
-            foreach (var itemToRemove in ImagePath.ToList())
-            {
-                ImagePath.Remove(itemToRemove);
-            }
-            ImagePath.Add(new ImagesPath() { ImagePathString = SelectedFileName });
-
+            IsOpen = true;
+            effects.ApplyEffect(windows);
         }
 
         public string SelectedFileName
@@ -169,6 +175,27 @@ namespace ImageGallery
             }
         }
 
+        public Boolean IsOpen
+        {
+            get => _isOpen;
+            set
+            {
+                if (value == _isOpen)
+                {
+                    return;
+                }
+
+                _isOpen = value;
+                OnPropertyChanged();
+            }
+        }
+        public ICommand ClosePop => new RelayCommand(
+            () =>
+            { IsOpen = false;
+                effects.ClearEffect(windows);
+            });
+
+        ApplyEffects effects = new ApplyEffects();
     }
 
 }

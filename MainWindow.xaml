@@ -76,5 +76,12 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
+        <Popup Name="TestPopUp" IsOpen="{Binding IsOpen}" PlacementTarget="{Binding ElementName=ImageDisplay}" Placement="Center" >
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Height="20" VerticalAlignment="Top" Command="{Binding ClosePop}">X</Button>
+                <Image DockPanel.Dock="Bottom" Source="{Binding SelectedFileName, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"  RenderOptions.BitmapScalingMode="HighQuality">
+                </Image>
+            </DockPanel>
+        </Popup>
     </Grid>
 </Controls:MetroWindow>
