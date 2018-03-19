@@ -25,6 +25,8 @@ namespace ImageGallery
         public bool canceled;
         
         private string _filePath;
+        private int _selectedItemIndex;
+        private string _selectedFileName;
 
         public string FilePaths
         {
@@ -125,6 +127,48 @@ namespace ImageGallery
                 }
             }
         }
+
+        public int  SelectedItemIndex
+        {
+            get => _selectedItemIndex;
+            set
+            {
+                if (value == _selectedItemIndex)
+                {
+                    return;
+                }
+
+                _selectedItemIndex = value;
+                ItemSelected();
+                OnPropertyChanged();
+            }
+        }
+        void ItemSelected()
+        {
+            SelectedFileName = ImagePath[_selectedItemIndex].ImagePathString;
+
+            foreach (var itemToRemove in ImagePath.ToList())
+            {
+                ImagePath.Remove(itemToRemove);
+            }
+            ImagePath.Add(new ImagesPath() { ImagePathString = SelectedFileName });
+
+        }
+
+        public string SelectedFileName
+        {
+            get => _selectedFileName;
+            set
+            {
+                if (value == _selectedFileName)
+                {
+                    return;
+                }
+                _selectedFileName = value;
+                OnPropertyChanged();
+            }
+        }
+
     }
 
 }

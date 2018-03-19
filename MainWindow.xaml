@@ -19,20 +19,62 @@
 
         <TextBox Name="FilePath" Text="{Binding FilePaths}" HorizontalAlignment="Right" Height="20" Width="200" VerticalAlignment="Center"/>
         <Button Name="Browse" Grid.Row="0" Grid.Column="1" Command="{Binding BrowseCommand}" Width="60" VerticalAlignment="Center" Height="20" HorizontalAlignment="Left">Browse</Button>
+        <TextBox Name="SelectedFileName" Grid.Row="0" Grid.Column="1" Text="{Binding SelectedFileName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" />
 
-        <ListBox Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ImagePath}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
+        <ListBox Name="ImageDisplay" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ImagePath}" SelectedIndex="{Binding SelectedItemIndex}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid />
+                    <WrapPanel/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding ImagePathString}" Stretch="Fill"  RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <Button>
+                        <Image Name="Displaying" Source="{Binding ImagePathString}" Stretch="Fill"  RenderOptions.BitmapScalingMode="HighQuality" Height="200" Width="200" Margin="4">
+                            <Image.Effect>
+                                <DropShadowEffect Color="Black" BlurRadius="4" />
+                            </Image.Effect>
+                        </Image>
+                    </Button>
+
                     <!--Width in above image would be 1/3 of ListBox width so that only 3
                     of item are displayed in a row-->
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                    <Setter Property="Padding" Value="2,0,0,0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                    </Trigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsSelected" Value="true"/>
+                                            <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
+                                    </MultiTrigger>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
         </ListBox>
     </Grid>
 </Controls:MetroWindow>
